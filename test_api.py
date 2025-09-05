@@ -5,6 +5,8 @@ Run this to test all endpoints: python test_api.py
 
 import requests
 import json
+import sys
+import time
 
 BASE_URL = 'http://localhost:5000'
 API_URL = f'{BASE_URL}/api'
@@ -137,10 +139,27 @@ def test_reviews(token, campsite_id):
     response = requests.get(f'{API_URL}/reviews/{campsite_id}')
     print(f"GET /reviews/{campsite_id} - Status: {response.status_code}")
 
+def wait_for_server(max_attempts=30):
+    """Wait for server to be ready"""
+    for i in range(max_attempts):
+        try:
+            response = requests.get(f'{BASE_URL}/health', timeout=2)
+            if response.status_code == 200:
+                print(f"Server is ready after {i+1} attempts")
+                return True
+        except requests.exceptions.RequestException:
+            pass
+        time.sleep(1)
+    return False
+
 def main():
     """Run all tests"""
     print("Starting API tests...")
-    print("Make sure the server is running on http://localhost:5000")
+    
+    # Wait for server to be ready
+    if not wait_for_server():
+        print("Error: Server not responding after 30 seconds")
+        sys.exit(1)
     
     try:
         test_basic_endpoints()
@@ -149,12 +168,15 @@ def main():
         booking_id = test_bookings(token, campsite_id)
         test_reviews(token, campsite_id)
         
-        print("\nAPI tests completed!")
+        print("\n✅ All API tests completed successfully!")
+        sys.exit(0)
         
     except requests.exceptions.ConnectionError:
-        print("Error: Could not connect to server. Make sure it's running on http://localhost:5000")
+        print("❌ Error: Could not connect to server")
+        sys.exit(1)
     except Exception as e:
-        print(f"Error during testing: {e}")
+        print(f"❌ Error during testing: {e}")
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
