@@ -116,7 +116,8 @@ class TestAuthentication:
         response = requests.post(f"{API_URL}/login", json=login_data)
         assert response.status_code == 401
         data = response.json()
-        assert "error" in data
+        if "error" not in data:
+            raise AssertionError('"error" key not found in response data')
 
 
 class TestReviews:
@@ -140,10 +141,12 @@ class TestPayment:
         response = requests.post(f"{API_URL}/pay", json=payment_data)
         assert response.status_code == 404
         data = response.json()
-        assert "error" in data
+        if "error" not in data:
+            raise AssertionError('"error" key not found in response data')
 
     def test_payment_missing_booking_id(self):
         response = requests.post(f"{API_URL}/pay", json={})
         assert response.status_code == 400
         data = response.json()
-        assert "error" in data
+        if "error" not in data:
+            raise AssertionError('"error" key not found in response data')

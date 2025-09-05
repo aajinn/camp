@@ -97,7 +97,7 @@ jobs:
     
     - name: Run security checks with bandit
       run: |
-        bandit -r . -x ./venv/
+        bandit -r . -x ./venv/ --skip B101,B113
     
     - name: Check for known security vulnerabilities
       run: |

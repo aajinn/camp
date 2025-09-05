@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models import db, Booking, Campsite, User
 from datetime import datetime, date
-import random
 
 bookings_bp = Blueprint("bookings", __name__)
 
@@ -207,8 +206,10 @@ def simulate_payment():
         if booking.status == "cancelled":
             return jsonify({"error": "Cannot pay for cancelled booking"}), 400
 
-        # Simulate payment processing
-        payment_success = random.choice([True, True, True, False])  # 75% success rate
+        # Simulate payment processing (using secrets for cryptographically secure randomness)
+        import secrets
+
+        payment_success = secrets.randbelow(4) != 0  # 75% success rate
 
         if payment_success:
             booking.status = "paid"
