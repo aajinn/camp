@@ -2,7 +2,7 @@
 
 A complete Flask-based REST API for booking camping sites, similar to Airbnb but focused on outdoor stays like tents, cabins, RV spots, and eco-friendly getaways.
 
-## Features ✨
+## Features
 
 -    **User Authentication** - JWT-based registration and login
 -    **Campsite Management** - CRUD operations for hosts
@@ -11,7 +11,7 @@ A complete Flask-based REST API for booking camping sites, similar to Airbnb but
 -    **Payment Simulation** - Mock payment processing
 -    **Search & Filtering** - Location and price-based search
 
-## Quick Start 🚀
+## Quick Start
 
 1. **Install dependencies:**
 
@@ -37,7 +37,7 @@ python app.py
 python test_api.py
 ```
 
-## API Endpoints 📋
+## API Endpoints
 
 ### Authentication
 
@@ -71,7 +71,7 @@ python test_api.py
 
 -    `POST /api/pay` - Simulate payment for booking
 
-## Example Usage 💡
+## Example Usage
 
 ### Register a new user:
 
@@ -96,7 +96,7 @@ curl -X POST http://localhost:5000/api/bookings \
   -d '{"campsite_id": 1, "start_date": "2025-10-01", "end_date": "2025-10-03"}'
 ```
 
-## Project Structure 📁
+## Project Structure
 
 ```
 camping-api/
@@ -113,7 +113,7 @@ camping-api/
     └── reviews.py     # Reviews & ratings
 ```
 
-## Database Schema 🗄️
+## Database Schema
 
 ### Users
 
